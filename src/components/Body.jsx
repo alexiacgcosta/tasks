@@ -1,10 +1,9 @@
-import './Body.scss'
+import './body.scss'
 import Tasks from '../elements/Tasks';
 
 //import { useState } from 'react';
 
 const Body = ({data}) => {
-  console.log(data);
   
   return (
     <div className='body'>

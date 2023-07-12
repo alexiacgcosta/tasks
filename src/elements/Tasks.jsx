@@ -1,12 +1,13 @@
 import trash from "../assets/trash.svg";
 import pencil from "../assets/pencil.svg";
 import { useState } from "react";
-import './Tasks.scss'
+import './index.scss'
 
 const Tasks = ({data}) => {
-
+  
   const [modalEdit, setModalEdit] = useState(false);
   const [modalTrash, setModalTrash] = useState(false);
+  const [modalNew, setModalNew] = useState(false);
   const [selectedTitle, setSelectedTitle] = useState("");
   const [selectedDescription, setSelectedDescription] = useState("");
 
@@ -21,16 +22,28 @@ const Tasks = ({data}) => {
     setModalTrash(true);
   };
 
-  const addTask = () => {
-    // Implemente a lógica para adicionar uma nova tarefa
+  const openModalNew = () => {
+    setModalNew(true);
   };
 
+  const addNewTask = () => {
+    let newTask = document.getElementById('newTask').value;
+    let newDesc = document.getElementById('newDesc').value;
+    let newTaskdb = {"id": {data}.lenght + 1 , "title": newTask, "description": newDesc, "completed": false}
+    console.log(newTaskdb);
+    setModalNew(false);
+  }
+
+  const changeCheck = () => {
+    console.log('changeCheck');
+  }
+
   return (
-    <div>
+    <div className="table">
       <table style={{
           display:
-            modalEdit || modalTrash ? "none" : "table",
-        }} className="table">
+            modalEdit || modalTrash || modalNew? "none" : "table",
+        }} >
         <thead>
             <tr>
               <th>Tarefas</th>
@@ -42,8 +55,8 @@ const Tasks = ({data}) => {
           {data.map((item) => (
             <tr key={item.id}>
               <td>{item.title}</td>
-              <td>
-                <input type="checkbox" checked={item.completed}/>
+              <td className="table_check">
+                <input type="checkbox" checked={item.completed}  onChange={changeCheck}/>
               </td>
               <td> 
                 <img src={pencil} onClick={() => openModalEdit(item.title, item.description)}/>
@@ -54,7 +67,7 @@ const Tasks = ({data}) => {
             <tr>
               <td> Nova tarefa...</td>
               <td></td>
-              <td className='add' onClick={addTask}>+</td>
+              <td className='add' onClick={openModalNew}>+</td>
             </tr>
         </tbody>
       </table>
@@ -92,25 +105,28 @@ const Tasks = ({data}) => {
         </div>
       </div>
     )}
-    {/* {modalTrash && (
-      <div>
-        <div onClick={() => setModalTrash(false)}>
+    {modalNew && (
+      <div className="modal_container">
+        <div onClick={() => setModalNew(false)} className="modal_container--close">
           <h2>X</h2>
         </div>
-        <div>
-          <h1>{`Deseja deletar o item "${selectedTitle}"?`}</h1>
-          <span>{selectedDescription}</span>
+        <div className="modal_container--new">
+          <div>
+            <h1>{`Atividade:`}</h1>
+            <input type="text" placeholder="Escreva a atividade aqui..." id="newTask"></input>
+          </div>
+          <div>
+            <h1>{`Descrição:`}</h1>
+            <input type="text" placeholder="Escreva a descrição aqui..." id="newDesc"></input>
+          </div>
         </div>
-        <div>
-          <button className="no" onClick={() => setModalTrash(false)}>
-            Não
-          </button>
-          <button className="yes">Sim</button>
+        <div className="modal_container--btn">
+          <button className="done" onClick={addNewTask}>Concluir</button>
         </div>
       </div>
-    )} */}
-</div>
+    )}
+    </div>
   )
-  }
+}
 
 export default Tasks
