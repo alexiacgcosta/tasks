@@ -1,4 +1,4 @@
-import './body.scss'
+import './Body.scss'
 import Tasks from '../elements/Tasks';
 
 const Body = ({data}) => {
