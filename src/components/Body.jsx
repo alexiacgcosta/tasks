@@ -1,8 +1,6 @@
 import './body.scss'
 import Tasks from '../elements/Tasks';
 
-//import { useState } from 'react';
-
 const Body = ({data}) => {
   
   return (
